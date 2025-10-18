@@ -3,8 +3,11 @@ import HomeLayout from '../layouts/HomeLayout';
 import Home from '../pages/Home';
 import CategoryNews from '../components/homelayout/CategoryNews';
 import DetailsPageLayout from '../layouts/DetailsPageLayout';
-import Login from '../layouts/Login';
-import Register from '../components/Register';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
+import AuthLayout from '../layouts/AuthLayout';
+import UnderConstruction from '../pages/UnderConstruction';
+import ErrorPage from '../pages/ErrorPage';
 
 const router = createBrowserRouter([
   {
@@ -23,12 +26,26 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/login',
-    element: <Login />,
+    path: '/auth',
+    element: <AuthLayout />,
+    children: [
+      {
+        path: '/auth/login',
+        element: <Login />,
+      },
+      {
+        path: '/auth/register',
+        element: <Register />,
+      },
+    ],
   },
   {
-    path: '/register',
-    element: <Register />,
+    path: '/about',
+    element: <UnderConstruction />,
+  },
+  {
+    path: '/career',
+    element: <UnderConstruction />,
   },
   {
     path: '/news/:id',
@@ -42,7 +59,7 @@ const router = createBrowserRouter([
   },
   {
     path: '*',
-    element: <h2>Error 404</h2>,
+    element: <ErrorPage />,
   },
 ]);
 export default router;

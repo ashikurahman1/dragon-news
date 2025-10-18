@@ -12,7 +12,7 @@ const Navbar = () => {
       </div>
       <div className="login-btn flex gap-5">
         <img src={userImg} alt="User Icon" />
-        <Link to="/login" className="btn btn-primary px-10">
+        <Link to="/auth/login" className="btn btn-primary px-10">
           Login
         </Link>
       </div>
