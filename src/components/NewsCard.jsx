@@ -1,8 +1,17 @@
 import { FaStar, FaEye, FaShareAlt, FaRegBookmark } from 'react-icons/fa';
+import { Link, Navigate } from 'react-router';
 
 const NewsCard = ({ news }) => {
-  const { title, rating, total_view, author, thumbnail_url, details, tags } =
-    news || {};
+  const {
+    title,
+    rating,
+    total_view,
+    author,
+    thumbnail_url,
+    details,
+    tags,
+    id,
+  } = news || {};
 
   // Format date
   const formattedDate = author?.published_date
@@ -49,9 +58,12 @@ const NewsCard = ({ news }) => {
           {details.length > 200 ? (
             <>
               {details.slice(0, 200)}...{' '}
-              <span className="text-secondary font-semibold cursor-pointer hover:underline">
-                Read More
-              </span>
+              <Link to={`/news/${id}`}>
+                {' '}
+                <span className="text-secondary font-semibold cursor-pointer hover:underline">
+                  Read More
+                </span>
+              </Link>
             </>
           ) : (
             details
