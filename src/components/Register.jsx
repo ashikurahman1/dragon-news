@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import Navbar from './Navbar';
 import { Link } from 'react-router';
+import Header from './Header';
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
@@ -24,6 +25,7 @@ const Register = () => {
 
   return (
     <div className="w-full lg:w-11/12 mx-auto my-5">
+      <Header />
       <Navbar />
       <div className="w-full max-w-xl mx-auto flex flex-col items-center my-10 bg-base-200 p-5 lg:p-15">
         <h2 className="text-2xl font-semibold text-center mb-6">
