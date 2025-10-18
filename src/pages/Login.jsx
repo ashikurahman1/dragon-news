@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
-import Navbar from '../components/Navbar';
-import { Link, useNavigate } from 'react-router';
+import React, { useContext, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../context/AuthContext';
-import Header from '../components/Header';
 
 const Login = () => {
+  const [error, setError] = useState('');
   const { signInUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogin = e => {
     e.preventDefault();
@@ -15,10 +15,11 @@ const Login = () => {
     const password = e.target.password.value;
     signInUser(email, password)
       .then(result => {
-        navigate('/');
+        navigate(`${location.state ? location.state : '/'}`);
       })
       .catch(err => {
         console.error(err);
+        setError(err);
       });
   };
   return (
@@ -55,7 +56,7 @@ const Login = () => {
               required
             />
           </div>
-
+          {error && <p className="text-secondary">{error.message}</p>}
           <button
             type="submit"
             className="btn w-full bg-primary text-white hover:bg-secondary"

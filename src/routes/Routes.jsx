@@ -8,6 +8,8 @@ import Register from '../pages/Register';
 import AuthLayout from '../layouts/AuthLayout';
 import UnderConstruction from '../pages/UnderConstruction';
 import ErrorPage from '../pages/ErrorPage';
+import PrivateRoutes from './PrivateRoutes';
+import Loading from '../pages/Loading';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +24,7 @@ const router = createBrowserRouter([
         path: '/category/:id',
         element: <CategoryNews />,
         loader: () => fetch('/news.json'),
+        hydrateFallbackElement: <Loading />,
       },
     ],
   },
@@ -49,13 +52,18 @@ const router = createBrowserRouter([
   },
   {
     path: '/news/:id',
-    element: <DetailsPageLayout />,
+    element: (
+      <PrivateRoutes>
+        <DetailsPageLayout />
+      </PrivateRoutes>
+    ),
     loader: async ({ params }) => {
       const res = await fetch('/news.json');
       const allNews = await res.json();
       const selectedNews = allNews.find(news => news.id === params.id);
       return selectedNews;
     },
+    hydrateFallbackElement: <Loading />,
   },
   {
     path: '*',

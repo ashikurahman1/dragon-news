@@ -1,22 +1,34 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import Header from '../components/Header';
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
-
+  const { createUser, setUser, updateUser } = useContext(AuthContext);
+  const [nameError, setNameError] = useState('');
+  const navigate = useNavigate();
   const handleRegister = e => {
     e.preventDefault();
 
     const name = e.target.name.value;
+    if (name.length < 5) {
+      return setNameError('Name should be more than 5 Character');
+    } else {
+      setNameError('');
+    }
     const photo = e.target.photo.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
     createUser(email, password)
       .then(result => {
-        alert('Register');
+        const user = result.user;
+        updateUser({ displayName: name, photoURL: photo })
+          .then(() => {
+            setUser({ ...user, displayName: name, photoURL: photo });
+            navigate('/');
+          })
+          .catch(err => console.log(err));
       })
       .catch(err => {
         console.error(err);
@@ -43,6 +55,7 @@ const Register = () => {
               className="input input-bordered w-full bg-gray-100"
               required
             />
+            {nameError && <p className="text-xs text-secondary">{nameError}</p>}
           </div>
           <div className="w-full">
             <label className="block mb-1 font-medium text-gray-700">
